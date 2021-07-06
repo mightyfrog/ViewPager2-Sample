@@ -8,17 +8,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_main.tabLayout
-import kotlinx.android.synthetic.main.activity_main.viewPager
+import org.mightyfrog.android.viewpager2sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        viewPager.adapter = TabAdapter()
-        TabLayoutMediator(tabLayout, viewPager) { _, _ ->
+        binding.viewPager.adapter = TabAdapter()
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
             // no-op
         }.attach()
     }
