@@ -19,5 +19,4 @@
         app:tabBackground="@drawable/tab_indicator_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />
-
 </FrameLayout>
