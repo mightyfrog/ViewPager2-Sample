@@ -1,13 +1,17 @@
 package org.mightyfrog.android.viewpager2sample
 
+import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlin.math.roundToInt
 import org.mightyfrog.android.viewpager2sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +25,15 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
             // no-op
         }.attach()
+
+        // page margin
+        val recyclerViewInstance =
+            binding.viewPager.children.first { it is RecyclerView } as RecyclerView
+        recyclerViewInstance.apply {
+            addItemDecoration(ItemDecoration())
+            setPadding(32.toPx(), 0, 32.toPx(), 0)
+            clipToPadding = false
+        }
     }
 
     class TabAdapter : RecyclerView.Adapter<ViewHolder>() {
@@ -42,4 +55,25 @@ class MainActivity : AppCompatActivity() {
 
         val textView: TextView = view.findViewById(R.id.textView)
     }
+
+    class ItemDecoration : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+            outRect.right = 16.toPx()
+            outRect.left = 16.toPx()
+        }
+    }
+}
+
+private fun Int.toPx(): Int {
+    val metrics = Resources.getSystem().displayMetrics
+    val px = this * (metrics.densityDpi / 160f)
+
+    return px.roundToInt()
 }
